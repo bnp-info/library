@@ -1,12 +1,12 @@
 # Site
-name: 'Pintereso'
-description: 'Pintereso is a free Jekyll theme for awesome people like you, Pinterest like.'
-logo: 'assets/images/logo.png'
-favicon: 'assets/images/logo.png'
-baseurl: '/template-pintereso-bootstrap-jekyll'
-avatar: 'assets/images/sal.jpg'
-disqus: 'demowebsite'
-email: 'wowthemesnet@gmail.com'
+name: "Brandon's Link Library"
+description: 'This is my link library for storing and sharing websites, articles, and other online resources.'
+logo: 'assets/images/cropped-logo_64x64.png'
+favicon: 'assets/images/cropped-logo_64x64.png'
+baseurl: '/library'
+avatar: ''
+disqus: ''
+email: ''
 
 include: ["_pages"]
 permalink: /:title/
