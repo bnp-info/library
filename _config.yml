@@ -4,6 +4,7 @@ description: 'This is my link library for storing and sharing websites, articles
 logo: 'assets/images/cropped-logo_64x64.png'
 favicon: 'assets/images/cropped-logo_64x64.png'
 baseurl: '/library'
+uplink: 'http://brandonsnotepad.info'
 avatar: ''
 disqus: ''
 email: ''
