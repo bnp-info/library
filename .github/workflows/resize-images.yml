@@ -17,7 +17,7 @@ jobs:
         uses: gonzalonaveira/gh-image-resizing@master
         with:
           IMAGES_MAX_WIDTH: "800"
-          IMAGES_QUALITY: "100"
+          IMAGES_QUALITY: "900"
           IMAGES_FORMATS: "jpg, jpge, png" 
           IMAGES_DIRECTORIES: "public/assets/blog/images"
 
