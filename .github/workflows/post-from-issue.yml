@@ -39,7 +39,7 @@ jobs:
             // Verify issue was closed as complete
             console.log('Issue state:', issue.state);
             console.log('Reason:', issue.state_reason);
-            if (issue.state === 'closed' && issue.state_reason === 'complete') {
+            if (issue.state === 'closed' && issue.state_reason === 'completed') {
               console.log('Issue closed as complete. Preceeding.');
             } else {
               console.log('Issue not closed as complete. Issue will not be processed.');
