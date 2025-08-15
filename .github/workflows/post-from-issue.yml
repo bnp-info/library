@@ -1,0 +1,108 @@
+name: Post From Issue
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  post-from-issue:
+    if: ${{ github.actor == 'brandonbrinkley' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Inspect Environment
+        run: |
+          set
+          which m4
+          # which imagemagick
+
+      - name: Issue Validation
+        id: validation
+        uses: actions/github-script@v7
+        with:
+          script: |
+
+            // Set processing flag to 'true' by default
+            core.setOutput('process_flag', 'true');
+
+            // Get Issue data with API call
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number
+            });
+
+            // Verify issue was closed as complete
+            console.log('Issue state:', issue.state);
+            console.log('Reason:', issue.state_reason);
+            if (issue.state === 'closed' && issue.state_reason === 'completed') {
+              console.log('Issue closed as complete. Preceeding.');
+            } else {
+              console.log('Issue not closed as complete. Issue will not be processed.');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                body: 'Issue not closed as complete. Issue not processed.'
+              });
+              core.setOutput('process_flag', 'false');
+            };
+ 
+      - name: Inspect Environment
+        run: |
+          set
+
+      - name: Checkout Repo
+        id: checkout
+        if: steps.validation.outputs.process_flag != 'false'
+        uses: actions/checkout@v4
+        with:
+          ref: staging
+
+      - name: Process
+        id: process
+        if: steps.validation.outputs.process_flag != 'false'
+        run: |
+
+          # Extract raw data from issue payload
+          ISSUE_NUM=${{ github.event.issue.number }}
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          ISSUE_USER="${{ github.event.issue.user.login }}"
+          ISSUE_DATE="${{ github.event.issue.created_at }}"
+
+          # Extract and format data for the post
+          POST_DATA_TITLE="${{ github.event.issue.title }}"
+          POST_DATA_URL=$(echo "$ISSUE_BODY" | grep -i '^URL:' | sed 's/URL:[[:space:]]*//i')
+          POST_DATA_AUTHOR=$(echo "$ISSUE_BODY" | grep -i '^Author:' | sed 's/Author:[[:space:]]*//i')
+          POST_DATA_PUBLISHER=$(echo "$ISSUE_BODY" | grep -i '^Publisher:' | sed 's/Publisher:[[:space:]]*//i')
+          POST_DATA_PUBDATE=$(echo "$ISSUE_BODY" | grep -i '^PubDate:' | sed 's/PubDate:[[:space:]]*//i' | { read gmt ; date -d "$gmt" +%m/%d/%Y ; } 2>/dev/null)
+          POST_DATA_CATEGORIES=$(echo "$ISSUE_BODY" | grep -i '^Categories:' | sed 's/Categories:[[:space:]]*//i')
+          POST_DATA_TYPE=$(echo "$ISSUE_BODY" | grep -i '^Type:' | sed 's/Type:[[:space:]]*//i')
+          POST_DATA_CAPTION=$(echo "$ISSUE_BODY" | grep -i '^Caption:' | sed 's/Caption:[[:space:]]*//i')
+
+          # Extract and format data for the files
+          POST_FILE_DATE=$(date -d $POST_DATA_PUBDATE +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d ;)
+          POST_FILE_TITLE=$(echo "$POST_DATA_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
+          POST_FILE_AUTHOR=$(echo "$POST_DATA_AUTHOR" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
+          POST_FILE_PUBLISHER=$(echo "$POST_DATA_PUBLISHER" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
+          BASE_FILENAME="${POST_FILE_DATE}-${POST_FILE_AUTHOR}-${POST_FILE_PUBLISHER}-${POST_FILE_TITLE}"
+
+          # Extract and format data for the image file
+          POST_IMAGE_INFILE=$(echo "$ISSUE_BODY" | grep -i '^Image:' | sed 's/Image:[[:space:]]*//i')
+          POST_IMAGE_OUTFILE="${BASE_FILENAME}.${POST_IMAGE_INFILE##*.}"
+
+          # Display extracted values
+          echo "Issue Data:"
+          set | grep '^ISSUE_'
+          echo ""
+          echo "Post Data:"
+          set | grep '^POST_'
+
+          # Produce the post markdown and image files
+          cat /assets/templates/post-template.md | envsubst > "/_posts/${BASE_FILENAME}.md"
+          # imagemagick imagefile newimagefile
