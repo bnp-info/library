@@ -36,8 +36,8 @@ jobs:
             });
 
             // Verify submitter is repo owner
-            console.log('Issue submitter:' issue.user.login);
-            console.log('Association:' issue.author_association);
+            console.log('Issue submitter:', issue.user.login);
+            console.log('Association:', issue.author_association);
             if (issue.author_association === 'OWNER') {
               console.log('Issue submitted by repo owner. Preceeding.');
             } else {
