@@ -29,7 +29,7 @@ jobs:
             core.setOutput('process_flag', 'true');
 
             // Get Issue data with API call
-            const { data: issue } = await github.rest.issue.get({
+            const { data: issue } = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.issue.number
