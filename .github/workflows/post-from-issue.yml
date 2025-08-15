@@ -6,6 +6,7 @@ on:
 
 jobs:
   post-from-issue:
+    if: ${{ github.actor == 'brandonbrinkley' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -35,18 +36,34 @@ jobs:
               issue_number: context.payload.issue.number
             });
 
-            // Verify submitter is repo owner
-            console.log('Issue submitter:', issue.user.login);
-            console.log('Association:', issue.author_association);
-            if (issue.author_association === 'OWNER') {
-              console.log('Issue submitted by repo owner. Preceeding.');
+            #// Verify submitter is repo owner
+            #console.log('Issue submitter:', issue.user.login);
+            #console.log('Association:', issue.author_association);
+            #if (issue.author_association === 'OWNER') {
+            #  console.log('Issue submitted by repo owner. Preceeding.');
+            #} else {
+            #  console.log('Issue not submitted by repo owner. Issue will not be processed.');
+            #  await github.rest.issues.createComment({
+            #    owner: context.repo.owner,
+            #    repo: context.repo.repo,
+            #    issue_number: context.payload.issue.number,
+            #    body: 'Issue not submitted by repo owner. Issue not processed.'
+            #  });
+            #  core.setOutput('process_flag', 'false');
+            #};
+
+            // Verify issue was closed as complete
+            console.log('Issue state:', issue.state);
+            console.log('Reason:', issue.state_reason);
+            if (issue.state === 'closed' && issue.state_reason === 'complete') {
+              console.log('Issue closed as complete. Preceeding.');
             } else {
-              console.log('Issue not submitted by repo owner. Issue will not be processed.');
+              console.log('Issue not closed as complete. Issue will not be processed.');
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.issue.number,
-                body: 'Issue not submitted by repo owner. Issue not be processed.'
+                body: 'Issue not closed as complete. Issue not processed.'
               });
               core.setOutput('process_flag', 'false');
             };
