@@ -17,4 +17,36 @@ jobs:
         run: |
           set
           which m4
-          which imagemagick
+          # which imagemagick
+
+      - name: Issue Validation
+        id: issue_validation
+        uses: actions/github-script@v7
+        with:
+          script: |
+
+            // Set processing flag to 'true' by default
+            core.setOutput('process_flag', 'true');
+
+            // Get Issue data with API call
+            const { data: issue } = await github.rest.issue.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number
+            });
+
+            // Verify submitter is repo owner
+            console.log('Issue submitter:' issue.user.login);
+            console.log('Association:' issue.author_association);
+            if (issue.author_association === 'OWNER') {
+              console.log('Issue submitted by repo owner. Preceeding.'
+            } else {
+              console.log('Issue not submitted by repo owner. Issue will not be processed.'
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                body: 'Issue not submitted by repo owner. Issue not be processed.'
+              });
+              core.setOutput('process_flag', 'false');
+            });
