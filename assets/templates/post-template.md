@@ -1,0 +1,10 @@
+---
+title: "${POST_DATA_TITLE}"
+metadate: "hide"
+categories: "${POST_DATA_CATEGORIES}"
+type: "${POST_DATA_TYPE}
+image: "${POST_IMAGE_OUTFILE}"
+visit: "${POST_DATA_URL}"
+---
+(${POST_DATA_PUBDATE} ${POST_DATA_AUTHOR}, ${POST_DATA_PUBLISHER})
+${POST_DATA_CAPTION}
