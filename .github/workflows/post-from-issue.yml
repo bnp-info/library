@@ -51,3 +51,13 @@ jobs:
               });
               core.setOutput('process_flag', 'false');
             };
+
+      - name: Inspect Environment
+        run: |
+          set
+
+      - name: Checkout Repo
+        if: steps.issue_validation.outputs.process_flag != 'false'
+        uses: actions/checkout@v4
+        with:
+          ref: staging
