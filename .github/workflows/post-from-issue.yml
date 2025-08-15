@@ -18,7 +18,6 @@ jobs:
         run: |
           set
           which m4
-          which envsubst
           # which imagemagick
 
       - name: Issue Validation
@@ -103,3 +102,7 @@ jobs:
           echo ""
           echo "Post Data:"
           set | grep '^POST_'
+
+          # Produce the post markdown and image files
+          cat /assets/templates/post-template.md | envsubst > "/_posts/${BASE_FILENAME}.md"
+          # imagemagick imagefile newimagefile
