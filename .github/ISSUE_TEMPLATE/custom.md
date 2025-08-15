@@ -1,17 +1,15 @@
 ---
-name: Custom issue template
-about: Describe this issue template's purpose here.
-title: YYYY-MM-DD-title
+name: Library Post
+about: Use this issue type to stage a library post.
+title: ''
 labels: ''
 assignees: ''
-
 ---
-
----
-title:  "Site or Article Title"
-metadate: "hide"
-categories: [ A, B, C ]
-image: "/assets/images/YYYY-MM-DD-title.jpg"
-visit: "https://target-url"
----
-Description
+URL: 
+Author (Last Name): 
+Publisher: 
+PubDate: 
+Categories: [ A, B, C ]
+Type: [single|list]
+Image: 
+Description: 
