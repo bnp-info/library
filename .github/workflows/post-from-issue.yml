@@ -39,9 +39,9 @@ jobs:
             console.log('Issue submitter:' issue.user.login);
             console.log('Association:' issue.author_association);
             if (issue.author_association === 'OWNER') {
-              console.log('Issue submitted by repo owner. Preceeding.'
+              console.log('Issue submitted by repo owner. Preceeding.');
             } else {
-              console.log('Issue not submitted by repo owner. Issue will not be processed.'
+              console.log('Issue not submitted by repo owner. Issue will not be processed.');
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -49,4 +49,4 @@ jobs:
                 body: 'Issue not submitted by repo owner. Issue not be processed.'
               });
               core.setOutput('process_flag', 'false');
-            });
+            };
