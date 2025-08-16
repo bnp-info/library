@@ -2,7 +2,7 @@
 title: ""
 metadate: "hide"
 categories: ""
-type: "
+type: ""
 image: ""
 visit: ""
 ---
