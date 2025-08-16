@@ -106,3 +106,10 @@ jobs:
           # Produce the post markdown and image files
           cat assets/templates/post-template.md | envsubst > "_posts/${BASE_FILENAME}.md"
           # imagemagick imagefile newimagefile
+
+      - name: Commit and push
+        run: |
+          git add _posts/
+          git add assets/images
+          git commit -m "Add post and image for issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}"
+          git push origin staging
