@@ -18,9 +18,9 @@ jobs:
         run: |
           set
           which m4
-          which convert
-          which identify
-          which convert
+          # which convert
+          # which identify
+          # which convert
           # which imagemagick
 
       - name: Issue Validation
@@ -99,6 +99,9 @@ jobs:
           export POST_IMAGE_INFILE=$(echo "$ISSUE_BODY" | grep -i '^Image:' | sed 's/Image:[[:space:]]*//i')
           export POST_IMAGE_OUTFILE="${BASE_FILENAME}.${POST_IMAGE_INFILE##*.}"
 
+          # Stage test image
+          cp assets/images/bob_newhart.jpg assets/images/bob.jpg
+          
           # 
           if [[ -f "$POST_IMAGE_INFILE" && ! -f "$POST_IMAGE_OUTFILE" ]]; then
             # Case 1: infile exists and outfile does not
@@ -115,7 +118,7 @@ jobs:
           else
             # Case 4: neither infile nor outfile exist
             echo "no file specified"
-            POST_IMAGE_OUTFILE="default.jpg"
+            POST_IMAGE_OUTFILE="test-pattern.png"
           fi
 
           # Display extracted values
