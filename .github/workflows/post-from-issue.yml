@@ -18,6 +18,9 @@ jobs:
         run: |
           set
           which m4
+          which convert
+          which identify
+          which convert
           # which imagemagick
 
       - name: Issue Validation
