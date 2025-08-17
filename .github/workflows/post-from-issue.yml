@@ -99,6 +99,25 @@ jobs:
           export POST_IMAGE_INFILE=$(echo "$ISSUE_BODY" | grep -i '^Image:' | sed 's/Image:[[:space:]]*//i')
           export POST_IMAGE_OUTFILE="${BASE_FILENAME}.${POST_IMAGE_INFILE##*.}"
 
+          # 
+          if [[ -f "$POST_IMAGE_INFILE" && ! -f "$POST_IMAGE_OUTFILE" ]]; then
+            # Case 1: infile exists and outfile does not
+            echo "creating new image file."
+            mv "$POST_IMAGE_INFILE" "$POST_IMAGE_OUTFILE"
+          elif [[ ! -f "$POST_IMAGE_INFILE" && -f "$POST_IMAGE_OUTFILE" ]]; then
+            # Case 2: outfile exists and infile does not
+            echo "Action: No action required."
+          elif [[ -f "$POST_IMAGE_INFILE" && -f "$POST_IMAGE_OUTFILE" ]]; then
+            # Case 3: both infile and outfile exist
+            echo "replacing image"
+            rm "$POST_IMAGE_OUTFILE"
+            mv "$POST_IMAGE_INFILE" "$POST_IMAGE_OUTFILE"
+          else
+            # Case 4: neither infile nor outfile exist
+            echo "no file specified"
+            POST_IMAGE_OUTFILE="default.jpg"
+          fi
+
           # Display extracted values
           echo "Issue Data:"
           set | grep '^ISSUE_'
