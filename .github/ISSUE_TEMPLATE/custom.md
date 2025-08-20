@@ -6,8 +6,7 @@ labels: ''
 assignees: ''
 ---
 URL: 
-Author: 
-Publisher: 
+Author:  
 PubDate: 
 Categories: 
 Type: 
@@ -16,8 +15,7 @@ Caption:
 
 __Data Entry Rules__
 * URL: a valid URL
-* Author: last name only (e.g. Jones)
-* Publisher: one word (e.g. CBS, Medium, Microsoft)
+* Author: last name only (publisher optional)
 * PubDate: M/D/YYYY or YYYY-MM-DD preferred
 * Categories: comma-separated (e.g. Photography, Religion, Literature)
 * Type: 'single' or 'list'
