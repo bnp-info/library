@@ -1,35 +1,56 @@
-name: Resize images
+name: Resize Images
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Github Action Image Resizing
+  resize-images:
     runs-on: ubuntu-latest
+
     steps:
-
-      - uses: actions/checkout@master
-
-      - name: Resize Images
-        id: resize-images
-
-        # You can change the version as well
-        uses: gonzalonaveira/gh-image-resizing@master
+      - name: Checkout staging branch
+        uses: actions/checkout@v4
         with:
-          IMAGES_MAX_WIDTH: "800"
-          IMAGES_QUALITY: "90"
-          IMAGES_FORMATS: "jpg, jpge, png" 
-          IMAGES_DIRECTORIES: "assets/images"
+          ref: staging
 
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v4
-        with:
-          add: 'public/'
-          author_name: "github-actions[bot]"
-          author_email: "github-actions@users.noreply.github.com"
-          message: |
-            Images Reszied by Github action
-            ${{steps.resize-images.outputs.result}}
-            
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Process images
+        run: |
+          exceptions_file="exceptions.txt"
+          touch "$exceptions_file"   # ensure it exists so we can append
+
+          while IFS= read -r img; do
+            if [ -f "$img" ]; then
+              echo "Processing $img"
+              echo "Before resize:"
+              identify "$img" || echo "⚠️ identify failed on $img before resize"
+
+              # Try resizing
+              if convert "$img" -resize 800x -quality 90 "$img"; then
+                echo "After resize:"
+                identify "$img" || echo "⚠️ identify failed on $img after resize"
+              else
+                echo "❌ Resize failed for $img"
+                echo "$img" >> "$exceptions_file"
+              fi
+            else
+              echo "❌ File not found: $img"
+              echo "$img" >> "$exceptions_file"
+            fi
+          done < new_images.txt
+
+          # Delete list file
+          rm -f new_images.txt
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          git commit -m "Resize images and update exceptions.txt" || echo "No changes to commit"
+          git push origin staging
