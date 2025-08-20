@@ -73,7 +73,6 @@ jobs:
           export POST_DATA_TITLE="${{ github.event.issue.title }}"
           export POST_DATA_URL=$(echo "$ISSUE_BODY" | grep -i '^URL:' | sed 's/URL:[[:space:]]*//i')
           export POST_DATA_AUTHOR=$(echo "$ISSUE_BODY" | grep -i '^Author:' | sed 's/Author:[[:space:]]*//i')
-          export POST_DATA_PUBLISHER=$(echo "$ISSUE_BODY" | grep -i '^Publisher:' | sed 's/Publisher:[[:space:]]*//i')
           export POST_DATA_PUBDATE=$(echo "$ISSUE_BODY" | grep -i '^PubDate:' | sed 's/PubDate:[[:space:]]*//i' | { read gmt ; date -d "$gmt" +%m/%d/%Y ; } 2>/dev/null)
           export POST_DATA_CATEGORIES=$(echo "$ISSUE_BODY" | grep -i '^Categories:' | sed 's/Categories:[[:space:]]*//i')
           export POST_DATA_TYPE=$(echo "$ISSUE_BODY" | grep -i '^Type:' | sed 's/Type:[[:space:]]*//i')
@@ -86,8 +85,7 @@ jobs:
           export POST_FILE_DATE=$(date -d $POST_DATA_PUBDATE +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d ;)
           export POST_FILE_TITLE=$(echo "$POST_DATA_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
           export POST_FILE_AUTHOR=$(echo "$POST_DATA_AUTHOR" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
-          export POST_FILE_PUBLISHER=$(echo "$POST_DATA_PUBLISHER" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
-          export BASE_FILENAME="${POST_FILE_DATE}-${POST_FILE_AUTHOR}-${POST_FILE_PUBLISHER}-${POST_FILE_TITLE}"
+          export BASE_FILENAME="${POST_FILE_DATE}-${POST_FILE_AUTHOR}-${POST_FILE_TITLE}"
           export POST_FILE_PATH="_posts"
           set | grep '^POST_FILE_'
           echo ""
