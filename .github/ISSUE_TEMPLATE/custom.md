@@ -18,6 +18,6 @@ __Data Entry Rules__
 * Author: last name only (publisher optional)
 * PubDate: M/D/YYYY or YYYY-MM-DD preferred
 * Categories: comma-separated (e.g. Photography, Religion, Literature)
-* Type: 'single' or 'list'
+* Type: 'article' or 'site' or 'list'
 * Image: the file that has been added to /assets/images for this post
 * Caption: one-line description
