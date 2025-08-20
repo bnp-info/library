@@ -20,10 +20,11 @@ jobs:
 
       - name: Process images
         run: |
+        
+          POST_IMAGE_PATH="assets/images"
+          
           exceptions_file="$POST_IMAGE_PATH/exceptions.txt"
           touch "$exceptions_file"   # ensure it exists so we can append
-
-          POST_IMAGE_PATH="assets/images"
 
           while IFS= read -r img; do
             if [ -f "$POST_IMAGE_PATH/$img" ]; then
