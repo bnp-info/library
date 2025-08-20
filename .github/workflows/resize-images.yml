@@ -20,19 +20,21 @@ jobs:
 
       - name: Process images
         run: |
-          exceptions_file="exceptions.txt"
+          exceptions_file="$POST_IMAGE_PATH/exceptions.txt"
           touch "$exceptions_file"   # ensure it exists so we can append
 
+          POST_IMAGE_PATH="assets/images"
+          
           while IFS= read -r img; do
-            if [ -f "$img" ]; then
+            if [ -f "$POST_IMAGE_PATH/$img" ]; then
               echo "Processing $img"
               echo "Before resize:"
-              identify "$img" || echo "⚠️ identify failed on $img before resize"
+              identify "$POST_IMAGE_PATH/$img" || echo "⚠️ identify failed on $img before resize"
 
               # Try resizing
-              if convert "$img" -resize 800x -quality 90 "$img"; then
+              if convert "$POST_IMAGE_PATH/$img" -resize 800x -quality 90 "$POST_IMAGE_PATH/$img"; then
                 echo "After resize:"
-                identify "$img" || echo "⚠️ identify failed on $img after resize"
+                identify "$POST_IMAGE_PATH/$img" || echo "⚠️ identify failed on $img after resize"
               else
                 echo "❌ Resize failed for $img"
                 echo "$img" >> "$exceptions_file"
@@ -41,10 +43,10 @@ jobs:
               echo "❌ File not found: $img"
               echo "$img" >> "$exceptions_file"
             fi
-          done < new_images.txt
+          done < $POST_IMAGE_PATH/new_images.txt
 
           # Delete list file
-          rm -f new_images.txt
+          rm -f $POST_IMAGE_PATH/new_images.txt
 
       - name: Commit and push changes
         run: |
