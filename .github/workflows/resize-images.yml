@@ -24,20 +24,31 @@ jobs:
           touch "$exceptions_file"   # ensure it exists so we can append
 
           POST_IMAGE_PATH="assets/images"
-          
+
           while IFS= read -r img; do
             if [ -f "$POST_IMAGE_PATH/$img" ]; then
               echo "Processing $img"
+
+              # Get width from identify
+              width=$(identify -format "%w" "$POST_IMAGE_PATH/$img" 2>/dev/null) || {
+                echo "⚠️ identify failed on $img"
+                continue
+              }
+
               echo "Before resize:"
               identify "$POST_IMAGE_PATH/$img" || echo "⚠️ identify failed on $img before resize"
-
-              # Try resizing
-              if convert "$POST_IMAGE_PATH/$img" -resize 800x -quality 90 "$POST_IMAGE_PATH/$img"; then
+              
+              if [ "$width" -gt 800 ]; then
+                echo "Resizing $img ..."
+                if convert "$POST_IMAGE_PATH/$img" -resize 800x -quality 90 "$POST_IMAGE_PATH/$img"; then
                 echo "After resize:"
                 identify "$POST_IMAGE_PATH/$img" || echo "⚠️ identify failed on $img after resize"
+                else
+                  echo "❌ Resize failed for $img"
+                  echo "$img" >> "$exceptions_file"
+                fi
               else
-                echo "❌ Resize failed for $img"
-                echo "$img" >> "$exceptions_file"
+                echo "Skipping $img (width ${width}px ≤ 800px)"
               fi
             else
               echo "❌ File not found: $img"
