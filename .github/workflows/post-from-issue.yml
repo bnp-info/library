@@ -146,3 +146,4 @@ jobs:
           git add assets/images
           git commit -m "Add post and image for issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}"
           git push origin staging
+
