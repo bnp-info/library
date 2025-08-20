@@ -6,6 +6,9 @@ on:
 jobs:
   resize-images:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout staging branch
