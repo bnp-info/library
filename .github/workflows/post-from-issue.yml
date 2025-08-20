@@ -11,12 +11,8 @@ jobs:
     permissions:
       contents: write
       issues: write
-      pull-requests: write
 
     steps:
-      - name: Inspect Environment
-        run: |
-          set
 
       - name: Issue Validation
         id: validation
@@ -38,7 +34,7 @@ jobs:
             console.log('Issue state:', issue.state);
             console.log('Reason:', issue.state_reason);
             if (issue.state === 'closed' && issue.state_reason === 'completed') {
-              console.log('Issue closed as complete. Preceeding.');
+              console.log('Issue closed as complete. Proceeding.');
             } else {
               console.log('Issue not closed as complete. Issue will not be processed.');
               await github.rest.issues.createComment({
@@ -50,10 +46,6 @@ jobs:
               core.setOutput('process_flag', 'false');
             };
  
-      - name: Inspect Environment
-        run: |
-          set
-
       - name: Checkout Repo
         id: checkout
         if: steps.validation.outputs.process_flag != 'false'
@@ -68,48 +60,45 @@ jobs:
 
           # Extract raw data from issue payload
           echo "Extracting Issue Data:"
-          ISSUE_NUM=${{ github.event.issue.number }}
-          ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_BODY="${{ github.event.issue.body }}"
-          ISSUE_USER="${{ github.event.issue.user.login }}"
-          ISSUE_DATE="${{ github.event.issue.created_at }}"
+          export ISSUE_NUM=${{ github.event.issue.number }}
+          export ISSUE_TITLE="${{ github.event.issue.title }}"
+          export ISSUE_BODY="${{ github.event.issue.body }}"
+          export ISSUE_USER="${{ github.event.issue.user.login }}"
+          export ISSUE_DATE="${{ github.event.issue.created_at }}"
           set | grep '^ISSUE_'
           echo ""
 
           # Extract and format data for the post
           echo "Extracting Post Data:"
-          POST_DATA_TITLE="${{ github.event.issue.title }}"
-          POST_DATA_URL=$(echo "$ISSUE_BODY" | grep -i '^URL:' | sed 's/URL:[[:space:]]*//i')
-          POST_DATA_AUTHOR=$(echo "$ISSUE_BODY" | grep -i '^Author:' | sed 's/Author:[[:space:]]*//i')
-          POST_DATA_PUBLISHER=$(echo "$ISSUE_BODY" | grep -i '^Publisher:' | sed 's/Publisher:[[:space:]]*//i')
-          POST_DATA_PUBDATE=$(echo "$ISSUE_BODY" | grep -i '^PubDate:' | sed 's/PubDate:[[:space:]]*//i' | { read gmt ; date -d "$gmt" +%m/%d/%Y ; } 2>/dev/null)
-          POST_DATA_CATEGORIES=$(echo "$ISSUE_BODY" | grep -i '^Categories:' | sed 's/Categories:[[:space:]]*//i')
-          POST_DATA_TYPE=$(echo "$ISSUE_BODY" | grep -i '^Type:' | sed 's/Type:[[:space:]]*//i')
-          POST_DATA_CAPTION=$(echo "$ISSUE_BODY" | grep -i '^Caption:' | sed 's/Caption:[[:space:]]*//i')
+          export POST_DATA_TITLE="${{ github.event.issue.title }}"
+          export POST_DATA_URL=$(echo "$ISSUE_BODY" | grep -i '^URL:' | sed 's/URL:[[:space:]]*//i')
+          export POST_DATA_AUTHOR=$(echo "$ISSUE_BODY" | grep -i '^Author:' | sed 's/Author:[[:space:]]*//i')
+          export POST_DATA_PUBLISHER=$(echo "$ISSUE_BODY" | grep -i '^Publisher:' | sed 's/Publisher:[[:space:]]*//i')
+          export POST_DATA_PUBDATE=$(echo "$ISSUE_BODY" | grep -i '^PubDate:' | sed 's/PubDate:[[:space:]]*//i' | { read gmt ; date -d "$gmt" +%m/%d/%Y ; } 2>/dev/null)
+          export POST_DATA_CATEGORIES=$(echo "$ISSUE_BODY" | grep -i '^Categories:' | sed 's/Categories:[[:space:]]*//i')
+          export POST_DATA_TYPE=$(echo "$ISSUE_BODY" | grep -i '^Type:' | sed 's/Type:[[:space:]]*//i')
+          export POST_DATA_CAPTION=$(echo "$ISSUE_BODY" | grep -i '^Caption:' | sed 's/Caption:[[:space:]]*//i')
           set | grep '^POST_DATA_'
           echo ""
 
           # Extract and format data for the files
           echo "Extracting File Data:"
-          POST_FILE_DATE=$(date -d $POST_DATA_PUBDATE +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d ;)
-          POST_FILE_TITLE=$(echo "$POST_DATA_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
-          POST_FILE_AUTHOR=$(echo "$POST_DATA_AUTHOR" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
-          POST_FILE_PUBLISHER=$(echo "$POST_DATA_PUBLISHER" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
-          BASE_FILENAME="${POST_FILE_DATE}-${POST_FILE_AUTHOR}-${POST_FILE_PUBLISHER}-${POST_FILE_TITLE}"
-          POST_FILE_PATH="_posts"
+          export POST_FILE_DATE=$(date -d $POST_DATA_PUBDATE +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d ;)
+          export POST_FILE_TITLE=$(echo "$POST_DATA_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
+          export POST_FILE_AUTHOR=$(echo "$POST_DATA_AUTHOR" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
+          export POST_FILE_PUBLISHER=$(echo "$POST_DATA_PUBLISHER" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
+          export BASE_FILENAME="${POST_FILE_DATE}-${POST_FILE_AUTHOR}-${POST_FILE_PUBLISHER}-${POST_FILE_TITLE}"
+          export POST_FILE_PATH="_posts"
           set | grep '^POST_FILE_'
           echo ""
 
           # Extract and format data for the image file
           echo "Extracting Image Data:"
-          POST_IMAGE_INFILE=$(echo "$ISSUE_BODY" | grep -i '^Image:' | sed 's/Image:[[:space:]]*//i')
-          POST_IMAGE_OUTFILE="${BASE_FILENAME}.${POST_IMAGE_INFILE##*.}"
-          POST_IMAGE_PATH="assets/images"
+          export POST_IMAGE_INFILE=$(echo "$ISSUE_BODY" | grep -i '^Image:' | sed 's/Image:[[:space:]]*//i')
+          export POST_IMAGE_OUTFILE="${BASE_FILENAME}.${POST_IMAGE_INFILE##*.}"
+          export POST_IMAGE_PATH="assets/images"
           set | grep '^POST_IMAGE_'
           echo ""
-
-          # Stage test image (TEMPORARY)
-          cp assets/images/bob_newhart.jpg assets/images/bob.jpg
 
           # Image logic
           if [[ ! -f "$POST_IMAGE_PATH/new_images.txt" ]]; then
