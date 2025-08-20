@@ -17,8 +17,6 @@ jobs:
       - name: Inspect Environment
         run: |
           set
-          which m4
-          # which imagemagick
 
       - name: Issue Validation
         id: validation
@@ -69,13 +67,17 @@ jobs:
         run: |
 
           # Extract raw data from issue payload
+          echo "Extracting Issue Data:"
           ISSUE_NUM=${{ github.event.issue.number }}
           ISSUE_TITLE="${{ github.event.issue.title }}"
           ISSUE_BODY="${{ github.event.issue.body }}"
           ISSUE_USER="${{ github.event.issue.user.login }}"
           ISSUE_DATE="${{ github.event.issue.created_at }}"
+          set | grep '^ISSUE_'
+          echo ""
 
           # Extract and format data for the post
+          echo "Extracting Post Data:"
           POST_DATA_TITLE="${{ github.event.issue.title }}"
           POST_DATA_URL=$(echo "$ISSUE_BODY" | grep -i '^URL:' | sed 's/URL:[[:space:]]*//i')
           POST_DATA_AUTHOR=$(echo "$ISSUE_BODY" | grep -i '^Author:' | sed 's/Author:[[:space:]]*//i')
@@ -84,25 +86,64 @@ jobs:
           POST_DATA_CATEGORIES=$(echo "$ISSUE_BODY" | grep -i '^Categories:' | sed 's/Categories:[[:space:]]*//i')
           POST_DATA_TYPE=$(echo "$ISSUE_BODY" | grep -i '^Type:' | sed 's/Type:[[:space:]]*//i')
           POST_DATA_CAPTION=$(echo "$ISSUE_BODY" | grep -i '^Caption:' | sed 's/Caption:[[:space:]]*//i')
+          set | grep '^POST_DATA_'
+          echo ""
 
           # Extract and format data for the files
+          echo "Extracting File Data:"
           POST_FILE_DATE=$(date -d $POST_DATA_PUBDATE +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d ;)
           POST_FILE_TITLE=$(echo "$POST_DATA_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
           POST_FILE_AUTHOR=$(echo "$POST_DATA_AUTHOR" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
           POST_FILE_PUBLISHER=$(echo "$POST_DATA_PUBLISHER" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | tr ' ' '-')
           BASE_FILENAME="${POST_FILE_DATE}-${POST_FILE_AUTHOR}-${POST_FILE_PUBLISHER}-${POST_FILE_TITLE}"
+          POST_FILE_PATH="_posts"
+          set | grep '^POST_FILE_'
+          echo ""
 
           # Extract and format data for the image file
+          echo "Extracting Image Data:"
           POST_IMAGE_INFILE=$(echo "$ISSUE_BODY" | grep -i '^Image:' | sed 's/Image:[[:space:]]*//i')
           POST_IMAGE_OUTFILE="${BASE_FILENAME}.${POST_IMAGE_INFILE##*.}"
-
-          # Display extracted values
-          echo "Issue Data:"
-          set | grep '^ISSUE_'
+          POST_IMAGE_PATH="assets/images"
+          set | grep '^POST_IMAGE_'
           echo ""
-          echo "Post Data:"
-          set | grep '^POST_'
 
-          # Produce the post markdown and image files
-          cat assets/templates/post-template.md | envsubst > "_posts/${BASE_FILENAME}.md"
-          # imagemagick imagefile newimagefile
+          # Stage test image (TEMPORARY)
+          cp assets/images/bob_newhart.jpg assets/images/bob.jpg
+
+          # Image logic
+          if [[ ! -f "$POST_IMAGE_PATH/new_images.txt" ]]; then
+            touch $POST_IMAGE_PATH/new_images.txt
+          fi
+          if [[ -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && ! -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
+            # Case 1: infile exists and outfile does not
+            echo "creating new image file."
+            mv "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
+            echo $POST_IMAGE_OUTFILE >> $POST_IMAGE_PATH/new_images.txt
+          elif [[ ! -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
+            # Case 2: outfile exists and infile does not
+            echo "Action: No action required."
+          elif [[ -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
+            # Case 3: both infile and outfile exist
+            echo "replacing image"
+            rm "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
+            mv "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
+            echo $POST_IMAGE_OUTFILE >> $POST_IMAGE_PATH/new_images.txt
+          else
+            # Case 4: neither infile nor outfile exist
+            echo "no file specified"
+            POST_IMAGE_OUTFILE="test-pattern.png"
+          fi
+          
+          # Produce the post markdown file
+          cat assets/templates/post-template.md | envsubst > "${POST_FILE_PATH}/${BASE_FILENAME}.md"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "action@github.com"
+          git add _posts/
+          git add assets/images
+          git commit -m "Add post and image for issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}"
+          git push origin staging
+
