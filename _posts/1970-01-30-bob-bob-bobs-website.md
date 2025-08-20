@@ -1,10 +1,10 @@
 ---
-title: "Bob's Website"
+title: ""
 metadate: "hide"
-categories: "Photography, Religion, Literature"
-type: "single"
-image: "1970-01-30-bob-bob-bobs-website.jpg"
-visit: "https://bob.com"
+categories: ""
+type: ""
+image: ""
+visit: ""
 ---
-(01/30/1970 Bob, Bob)
-This is a cool site by Bob
+( , )
+
