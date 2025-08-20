@@ -3,7 +3,7 @@ title: "Luzianne's Mint Iced Tea"
 metadate: "hide"
 categories: "Recipes"
 type: "article"
-image: "assets/images/test-pattern.png"
+image: "assets/images/2025-08-20-luzianne-tea-luziannes-mint-iced-tea.JPG"
 visit: "https://luzianne.com/recipes/mint-iced-tea/"
 ---
 by Luzianne Tea, 08/20/2025 \
