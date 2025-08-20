@@ -2,7 +2,7 @@
 title: "Bob's Website"
 metadate: "hide"
 categories: "Photography, Religion, Literature"
-type: "single"
+type: "article"
 image: "assets/images/1972-01-30-bob-bob-bobs-website.jpg"
 visit: "https://bob.com"
 ---
