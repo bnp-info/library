@@ -119,7 +119,7 @@ jobs:
           else
             # Case 4: neither infile nor outfile exist
             echo "no file specified"
-            POST_IMAGE_OUTFILE="test-pattern.png"
+            POST_IMAGE_OUTFILE="default.png"
           fi
           
           # Produce the post markdown file
