@@ -8,6 +8,7 @@ uplink: 'http://brandonsnotepad.info'
 avatar: ''
 disqus: ''
 email: ''
+gtag: "G-9VCZJ13626"
 
 include: ["_pages"]
 permalink: /:title/
