@@ -1,7 +1,7 @@
 ---
 title: "Static IP address templates for dhcpcd.conf"
 metadate: "hide"
-categories: "Linux, RPi"
+categories: [ Linux, RPi ]
 type: "article"
 image: "assets/images/2016-03-15-rurwin-raspberry-pi-forums-static-ip-address-templates-for-dhcpcdconf.jpg"
 visit: "https://forums.raspberrypi.com/viewtopic.php?t=140252"

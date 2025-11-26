@@ -1,7 +1,7 @@
 ---
 title: "GalliumOS Hardware Compatibility"
 metadate: "hide"
-categories: "Linux, Chromebook"
+categories: [ Linux, Chromebook ]
 type: "article"
 image: "assets/images/2021-04-08-galliumosorg-galliumos-hardware-compatibility.png"
 visit: "https://wiki.galliumos.org/Hardware_Compatibility"
