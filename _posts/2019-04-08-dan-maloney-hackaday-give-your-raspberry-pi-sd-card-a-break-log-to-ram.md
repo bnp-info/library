@@ -1,7 +1,7 @@
 ---
 title: "Give Your Raspberry Pi SD Card A Break: Log To RAM"
 metadate: "hide"
-categories: "Linux, RPi"
+categories: [ Linux, RPi ]
 type: "article"
 image: "assets/images/2019-04-08-dan-maloney-hackaday-give-your-raspberry-pi-sd-card-a-break-log-to-ram.png"
 visit: "https://hackaday.com/2019/04/08/give-your-raspberry-pi-sd-card-a-break-log-to-ram/"
