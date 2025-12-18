@@ -3,7 +3,7 @@ title: "Static IP address templates for dhcpcd.conf"
 metadate: "hide"
 categories: [ Linux, RPi ]
 type: "article"
-image: "assets/images/raspberry-pi.jpg"
+image: "assets/images/stock-raspberry-pi.jpg"
 visit: "https://forums.raspberrypi.com/viewtopic.php?t=140252"
 ---
 by rurwin (Raspberry Pi Forums), 03/15/2016 \
