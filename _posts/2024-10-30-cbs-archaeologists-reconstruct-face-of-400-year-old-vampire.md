@@ -1,5 +1,6 @@
 ---
 title:  "Archaeologists reconstruct face of 400-year-old 'vampire' buried with iron sickle across her neck"
+displaytitle: true
 metadate: "hide"
 categories: [ Archaeology, Vampires ]
 type: "article"
