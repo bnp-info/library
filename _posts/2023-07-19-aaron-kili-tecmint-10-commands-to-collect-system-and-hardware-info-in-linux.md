@@ -1,10 +1,10 @@
 ---
 title: "10 Commands to Collect System and Hardware Info in Linux"
-displaytitle: false
+displaytitle: true
 metadate: "hide"
 categories: "Linux"
 type: "article"
-image: "assets/images/2023-07-19-aaron-kili-tecmint-10-commands-to-collect-system-and-hardware-info-in-linux.png"
+image: "assets/images/stock-tecmint.jpg"
 visit: "https://www.tecmint.com/commands-to-collect-system-and-hardware-information-in-linux"
 ---
 by Aaron Kili (Tecmint), 07/19/2023 \
