@@ -1,6 +1,6 @@
 ---
 title: "How to Convert or Merge Multiple Images to PDF in Linux"
-displaytitle: ""
+displaytitle: true
 metadate: "hide"
 categories: "Linux"
 type: "article"
