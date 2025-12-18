@@ -1,5 +1,6 @@
 ---
 title: "How I Manage My Time - 10 Time Management Tips"
+displaytitle: true
 metadate: "hide"
 categories: "Productivity"
 type: "video"
