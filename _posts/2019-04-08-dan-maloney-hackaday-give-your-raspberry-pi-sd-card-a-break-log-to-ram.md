@@ -1,5 +1,6 @@
 ---
 title: "Give Your Raspberry Pi SD Card A Break: Log To RAM"
+displaytitle: false
 metadate: "hide"
 categories: [ Linux, RPi ]
 type: "article"

@@ -1,5 +1,6 @@
 ---
 title:  "Bug Eric: Double-Banded Scoliid Wasp"
+displaytitle: false
 metadate: "hide"
 categories: [ Biology ]
 type: "article"

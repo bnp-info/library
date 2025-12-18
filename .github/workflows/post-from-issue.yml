@@ -71,6 +71,7 @@ jobs:
           # Extract and format data for the post
           echo "Extracting Post Data:"
           export POST_DATA_TITLE="${{ github.event.issue.title }}"
+          export POST_DATA_DISPLAY_TITLE=$(echo "$ISSUE_BODY" | grep -i '^DisplayTitle:' | sed 's/URL:[[:space:]]*//i')
           export POST_DATA_URL=$(echo "$ISSUE_BODY" | grep -i '^URL:' | sed 's/URL:[[:space:]]*//i')
           export POST_DATA_AUTHOR=$(echo "$ISSUE_BODY" | grep -i '^Author:' | sed 's/Author:[[:space:]]*//i')
           export POST_DATA_PUBDATE=$(echo "$ISSUE_BODY" | grep -i '^PubDate:' | sed 's/PubDate:[[:space:]]*//i' | { read gmt ; date -d "$gmt" +%m/%d/%Y ; } 2>/dev/null)

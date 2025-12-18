@@ -1,5 +1,6 @@
 ---
 title: "Static IP address templates for dhcpcd.conf"
+displaytitle: true
 metadate: "hide"
 categories: [ Linux, RPi ]
 type: "article"

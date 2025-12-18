@@ -6,11 +6,12 @@ labels: ''
 assignees: ''
 ---
 URL: 
-Author:  
+Author: 
 PubDate: 
 Categories: 
 Type: 
 Image: 
+DisplayTitle: 
 Caption: 
 
 __Data Entry Rules__
@@ -20,4 +21,5 @@ __Data Entry Rules__
 * Categories: comma-separated (e.g. Photography, Religion, Literature)
 * Type: 'article' or 'site' or 'list'
 * Image: the file that has been added to /assets/images for this post
+* DisplayTitle: true or false (use false when article title is in the image)
 * Caption: one-line description
