@@ -1,5 +1,6 @@
 ---
 title: "Luzianne's Mint Iced Tea"
+displaytitle: false
 metadate: "hide"
 categories: "Recipes"
 type: "article"

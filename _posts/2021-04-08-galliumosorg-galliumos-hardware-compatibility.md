@@ -1,5 +1,6 @@
 ---
 title: "GalliumOS Hardware Compatibility"
+displaytitle: true
 metadate: "hide"
 categories: [ Linux, Chromebook ]
 type: "article"

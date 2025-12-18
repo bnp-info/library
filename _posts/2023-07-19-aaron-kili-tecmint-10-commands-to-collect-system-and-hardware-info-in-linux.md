@@ -1,5 +1,6 @@
 ---
 title: "10 Commands to Collect System and Hardware Info in Linux"
+displaytitle: false
 metadate: "hide"
 categories: "Linux"
 type: "article"
