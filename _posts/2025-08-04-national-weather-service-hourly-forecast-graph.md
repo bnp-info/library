@@ -1,5 +1,6 @@
 ---
 title:  "National Weather Service Hourly Forecast Graph"
+displaytitle: true
 metadate: "hide"
 categories: [ Weather ]
 type: "site"
