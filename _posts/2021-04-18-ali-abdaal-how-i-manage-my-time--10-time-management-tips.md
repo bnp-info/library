@@ -3,7 +3,7 @@ title: "How I Manage My Time - 10 Time Management Tips"
 metadate: "hide"
 categories: "Productivity"
 type: "video"
-image: "assets/images/2021-04-18-ali-abdaal-how-i-manage-my-time--10-time-management-tips.jpg"
+image: "assets/images/stock-youtube.jpg"
 visit: "https://www.youtube.com/watch?v=iONDebHX9qk"
 ---
 by Ali Abdaal, 04/18/2021 \
