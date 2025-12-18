@@ -4,7 +4,7 @@ displaytitle: ""
 metadate: "hide"
 categories: "Linux"
 type: "article"
-image: "assets/images/default.png"
+image: "assets/images/stock-its-foss.jpb"
 visit: "https://itsfoss.gitlab.io/post/how-to-convert-or-merge-multiple-images-to-pdf-in-linux/"
 ---
 by revWhiteShadow, 08/11/2025 \
