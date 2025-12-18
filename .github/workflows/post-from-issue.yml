@@ -102,17 +102,23 @@ jobs:
           if [[ ! -f "$POST_IMAGE_PATH/new_images.txt" ]]; then
             touch $POST_IMAGE_PATH/new_images.txt
           fi
-          if [[ -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && ! -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
+          if [[ $POST_IMAGE_INFILE == default* ]]; then
+            # Ignore the default image
+            echo "Image: default image specified."
+          elif [[ $POST_IMAGE_INFILE == stock-* ]]; then
+            # Ignore stock banners
+            echo "Image: stock image specified."
+          elif [[ -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && ! -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
             # Case 1: infile exists and outfile does not
-            echo "creating new image file."
+            echo "Image: creating new image file."
             mv "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
             echo $POST_IMAGE_OUTFILE >> $POST_IMAGE_PATH/new_images.txt
           elif [[ ! -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
             # Case 2: outfile exists and infile does not
-            echo "Action: No action required."
+            echo "Image: image exists, no action required."
           elif [[ -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
             # Case 3: both infile and outfile exist
-            echo "replacing image"
+            echo "Image: replacing image."
             rm "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
             mv "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
             echo $POST_IMAGE_OUTFILE >> $POST_IMAGE_PATH/new_images.txt
