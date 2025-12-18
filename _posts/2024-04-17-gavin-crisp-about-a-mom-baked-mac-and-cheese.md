@@ -1,5 +1,6 @@
 ---
 title: "Baked Mac And Cheese"
+displaytitle: false
 metadate: "hide"
 categories: "Recipes"
 type: "article"
