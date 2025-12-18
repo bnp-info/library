@@ -1,5 +1,6 @@
 ---
 title: "$POST_DATA_TITLE"
+displaytitle: "$POST_DATA_DISPLAY_TITLE"
 metadate: "hide"
 categories: "$POST_DATA_CATEGORIES"
 type: "$POST_DATA_TYPE"
