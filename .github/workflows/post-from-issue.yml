@@ -102,12 +102,14 @@ jobs:
           if [[ ! -f "$POST_IMAGE_PATH/new_images.txt" ]]; then
             touch $POST_IMAGE_PATH/new_images.txt
           fi
-          if [[ $POST_IMAGE_INFILE == default* ]]; then
+          if [[ $POST_IMAGE_INFILE == default* && -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" ]]; then
             # Ignore the default image
             echo "Image: default image specified."
-          elif [[ $POST_IMAGE_INFILE == stock-* ]]; then
+            export POST_IMAGE_OUTFILE="${POST_IMAGE_INFILE}"
+          elif [[ $POST_IMAGE_INFILE == stock-* && -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" ]]; then
             # Ignore stock banners
             echo "Image: stock image specified."
+            export POST_IMAGE_OUTFILE="${POST_IMAGE_INFILE}"
           elif [[ -f "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" && ! -f "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE" ]]; then
             # Case 1: infile exists and outfile does not
             echo "Image: creating new image file."
@@ -123,8 +125,8 @@ jobs:
             mv "$POST_IMAGE_PATH/$POST_IMAGE_INFILE" "$POST_IMAGE_PATH/$POST_IMAGE_OUTFILE"
             echo $POST_IMAGE_OUTFILE >> $POST_IMAGE_PATH/new_images.txt
           else
-            # Case 4: neither infile nor outfile exist
-            echo "no file specified"
+            # All other scenarios
+            echo "Image: error in processing image file."
             POST_IMAGE_OUTFILE="default.png"
           fi
           
