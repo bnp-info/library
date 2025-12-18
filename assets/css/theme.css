@@ -91,6 +91,13 @@ footer.footer {
 	border: 0;
     transition:ease .1s;
 }
+.card:hover {
+  -webkit-transform: translate(0px, -2px);
+      -ms-transform: translate(0px, -2px);
+          transform: translate(0px, -2px);
+  -webkit-box-shadow: 0 15px 45px -10px rgba(10, 16, 34, 0.2);
+          box-shadow: 0 15px 45px -10px rgba(10, 16, 34, 0.2);
+}
 .card-pin:hover .overlay {
 	opacity:.5;
 	border:5px solid #f3f3f3;
