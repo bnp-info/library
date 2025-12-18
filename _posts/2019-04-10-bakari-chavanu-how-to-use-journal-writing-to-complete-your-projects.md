@@ -1,5 +1,6 @@
 ---
 title: "How to Use Journal Writing to Complete Your Projects"
+displaytitle: false
 metadate: "hide"
 categories: "Journaling"
 type: "article"
