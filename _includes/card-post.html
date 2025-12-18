@@ -12,9 +12,15 @@
         
     {% endunless %}
         
-    {% if post.image %} 
-    
-    <!-- div class="wrapcat">
+
+        {% if post.image %} 
+
+    <!-- DISABLING THIS TO ENABLE CLICKING ON IMAGES
+         This wrapper section adds some buttons on top of the card image, but
+         it prevents the user from clicking on the image itself to go to the
+         underlying post. This is not ideal for my purposes, so I am disabling it.
+        
+    <div class="wrapcat">
 
         <span class="pinme">
             <a data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url={{site.url}}{{site.baseurl}}{{post.url}}&media={{site.url}}{{site.baseurl}}/{{post.image}}&description={{ post.title }} - {{ post.content | strip_html | truncatewords:25 }}"></a>
@@ -33,7 +39,8 @@
             {% endfor %}
         </div>
 
-</div -->
+</div>
+END DISABLING -->
            
     
         <a href="{{site.baseurl}}{{post.url}}">
@@ -44,9 +51,11 @@
                 {% if post.displaytitle %}
                 <h2 class="card-title title">{{ post.title }}</h2>
                 {% endif %}
+                <!--
                 <div class="more">                
                     <i class="fa fa-arrow-circle-right text-muted" aria-hidden="true"></i>
-                </div>  
+                </div>
+                -->
             </div>
             
          </a>
