@@ -152,10 +152,10 @@ footer.footer {
 	text-decoration:none;
 	color: #ffffff;
 }
-.card-pin.raco:hover .notraco {
-    background-color: #f0f0f0;
-    transition: all 0.2s;
-}
+//.card-pin.raco:hover .notraco {
+//    background-color: #f0f0f0;
+//    transition: all 0.2s;
+//}
 .social {
 	position:relative;
 	-webkit-transform:translateY(-50%);
