@@ -3,7 +3,7 @@ title: "Raspbian with Read-only Root"
 metadate: "hide"
 categories: [ Linux, RPi ]
 type: "article"
-image: "assets/images/2016-09-30-ejolson-raspberry-pi-forums-raspbian-with-readonly-root.png"
+image: "assets/images/stock-raspberry-pi.jpg"
 visit: "https://forums.raspberrypi.com/viewtopic.php?t=161416"
 ---
 by ejolson (Raspberry Pi Forums), 09/30/2016 \
