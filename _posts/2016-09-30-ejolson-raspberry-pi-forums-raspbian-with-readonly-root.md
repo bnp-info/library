@@ -1,5 +1,6 @@
 ---
 title: "Raspbian with Read-only Root"
+displaytitle: true
 metadate: "hide"
 categories: [ Linux, RPi ]
 type: "article"
