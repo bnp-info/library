@@ -13,24 +13,20 @@
     {% endunless %}
         
 
-        {% if post.image %} 
+    {% if post.image %}
 
     <!-- DISABLING THIS TO ENABLE CLICKING ON IMAGES
          This wrapper section adds some buttons on top of the card image, but
          it prevents the user from clicking on the image itself to go to the
          underlying post. This is not ideal for my purposes, so I am disabling it.
-        
     <div class="wrapcat">
-
         <span class="pinme">
             <a data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url={{site.url}}{{site.baseurl}}{{post.url}}&media={{site.url}}{{site.baseurl}}/{{post.image}}&description={{ post.title }} - {{ post.content | strip_html | truncatewords:25 }}"></a>
         </span>
-
          <span class="gotopost">
              <a href="{{site.baseurl}}{{post.url}}" class="text-dark"><i class="fa fa-arrow-circle-right"></i> More
              </a>
          </span> 
-
         <div class="showcat">
             {% for category in post.categories %}
               <a class="btn btn-sm btn-danger mb-1" href="{{site.baseurl}}/categories.html#{{ category | downcase }}">
@@ -38,22 +34,20 @@
               </a>
             {% endfor %}
         </div>
+    </div>
+    END DISABLING -->
 
-</div>
-END DISABLING -->
-           
-    
-        <a href="{{site.baseurl}}{{post.url}}">
-          <img class="card-img" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ post.image | absolute_url }}{% endif %}" alt="{{ post.title }}">             
-          {% if post.displaytitle %}
-          <div class="notraco">
-            <h2 class="card-title title">{{ post.title }}</h2>
-            <!--div class="more">                
-                    <i class="fa fa-arrow-circle-right text-muted" aria-hidden="true"></i>
-            </div-->
-          </div>
-          {% endif %}
-         </a>
+    <a href="{{site.baseurl}}{{post.url}}">
+      <img class="card-img" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ post.image | absolute_url }}{% endif %}" alt="{{ post.title }}">             
+      {% if post.displaytitle == true %}
+      <div class="notraco">
+        <h2 class="card-title title">{{ post.title }}</h2>
+        <!--div class="more">                
+            <i class="fa fa-arrow-circle-right text-muted" aria-hidden="true"></i>
+        </div-->
+      </div>
+      {% endif %}
+     </a>
     
     {% endif %}
         
